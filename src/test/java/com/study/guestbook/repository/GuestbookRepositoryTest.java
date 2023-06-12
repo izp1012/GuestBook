@@ -25,9 +25,9 @@ public class GuestbookRepositoryTest {
 
             IntStream.rangeClosed(1,300).forEach(i -> {
                 Guestbook guestbook = Guestbook.builder()
-                        .title("Title.." + i)
-                        .content("Content.." + i)
-                        .writer("user" + (i % 10))
+                        .title("Inhyo's Title.." + i)
+                        .content("Inhyo's Content.." + i)
+                        .writer("Inhyo" + (i % 10))
                         .build();
                 System.out.println(guestbookRepository.save(guestbook));
             });
@@ -103,8 +103,9 @@ public class GuestbookRepositoryTest {
 
             //조건 1을 먼저 추가한 뒤 조건 2 추가
             //gt를 이용해 인자보다 크다라는 조건을 줌
-            //gt 라는 변수는 '>' 와 같은 의미임
-            builder.and(qGuestbook.gno.gt(0L));
+            //gt 라는 메소드는 '>' 와 같은 의미임
+            //lt 라는 메소드는 '<' 와 같은 의미임
+            builder.and(qGuestbook.gno.lt(200L));
 
             Page<Guestbook> result = guestbookRepository.findAll(builder, pageable);
             /* gno 역순으로 해서 10개를 찾을건데

@@ -1,12 +1,14 @@
 package com.study.guestbook.service;
 
 import com.study.guestbook.dto.GuestbookDTO;
+import com.study.guestbook.dto.PageRequestDTO;
+import com.study.guestbook.dto.PageResultDTO;
 import com.study.guestbook.entity.Guestbook;
 
 public interface GuestbookService {
     Long register(GuestbookDTO dto);
 
-
+    PageResultDTO<GuestbookDTO, Guestbook> getList(PageRequestDTO requestDTO);
     /*
     defult 라는 접근 제한자 :
     Java8 부터는 인터페이스의 실제 내용을 가지는 코드를 dafault 라는 키워드로 생성할 수 있다.
@@ -21,5 +23,18 @@ public interface GuestbookService {
                 .writer(dto.getWriter())
                 .build();
         return entity;
+    }
+
+    default GuestbookDTO entityToDto(Guestbook entity){
+
+        GuestbookDTO dto = GuestbookDTO.builder()
+                .gno(entity.getGno())
+                .title(entity.getTitle())
+                .content(entity.getContent())
+                .writer(entity.getWriter())
+                .regDate(entity.getRegDate())
+                .modDate(entity.getModDate())
+                .build();
+        return dto;
     }
 }
