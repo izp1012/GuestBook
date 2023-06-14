@@ -5,7 +5,13 @@
 
     <th:block th:fragment="content">
 
-        <h1 class="mt-4">GuestBook List Page</h1>
+        <h1 class="mt-4">GuestBook List Page
+            <span>
+            <a th:href="@{/guestbook/register}">
+                <button type="button" class="btn btn-outline-primary">REGISTER</button>
+            </a>
+        </span>
+        </h1>
 
         <!--목록 START-->
         <table class="table table-striped">
@@ -19,7 +25,11 @@
             </thead>
             <tbody>
             <tr th:each="dto : ${result.dtoList}" >
-                <th scope="row">[[${dto.gno}]]</th>
+                <th scope="row">
+                    <a th:href="@{/guestbook/read(gno = ${dto.gno}, page = ${result.page}, type=${pageRequestDTO.type}, keyword=${pageRequestDTO.keyword})}">
+                        [[${dto.gno}]]
+                    </a>
+                </th>
                 <td>[[${dto.title}]]</td>
                 <td>[[${dto.writer}]]</td>
                 <td>[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</td>
@@ -53,6 +63,58 @@
         </ul>
         <!--하단 페이지 END-->
 
+        <!--모달 페이지 START-->
+        <div class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+
+                    <!--modal-header START-->
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label = "Cloes">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <!--modal-header END-->
+
+                    <!--modal-body START-->
+                    <div class="modal-body">
+                        <p>Modal body text goes here.</p>
+                    </div>
+                    <!--modal-body END-->
+
+                    <!--modal-footer START-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" >Save changes</button>
+                    </div>
+                    <!--modal-footer END-->
+                </div>
+                <!--modal-content END-->
+            </div>
+        </div>
+        <!--모달 페이지 END-->
+
+        <script th:inline="javascript">
+
+            var msg = [[${msg}]];
+
+            console.log(msg);
+
+            if(msg){
+                $(".modal").modal();
+            }
+
+            var searchForm = $("#searchForm");
+
+            $('.btn-search').click(function(e){
+                searchForm.submit();
+            });
+            $('.btn-clear').click(function(e){
+                searchForm.empty().submit();
+            });
+
+        </script>
     </th:block>
 
 </th:block>
