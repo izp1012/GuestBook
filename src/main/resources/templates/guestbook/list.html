@@ -1,12 +1,58 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://wwww.thymeleaf.org">
+<html lang="en">
 
-  <th:block th:replace="~{/layout/basic :: setContent(~{this ::content} )}">
+<th:block th:replace="~{/layout/basic :: setContent(~{this::content})}">
 
-      <th:block th:fragment="content">
-          <h1>GuestBook list</h1>
-      </th:block>
+    <th:block th:fragment="content">
 
-  </th:block>
+        <h1 class="mt-4">GuestBook List Page</h1>
 
-</html>
+        <!--목록 START-->
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Writer</th>
+                <th scope="col">Regdate</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="dto : ${result.dtoList}" >
+                <th scope="row">[[${dto.gno}]]</th>
+                <td>[[${dto.title}]]</td>
+                <td>[[${dto.writer}]]</td>
+                <td>[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</td>
+            </tr>
+            </tbody>
+        </table>
+        <!--목록 END-->
+
+        <!--하단 페이지 START-->
+        <ul class="pagination h-100 justify-content-center align-items-center">
+
+            <!--PREV버튼 START-->
+            <li class="page-item" th:if="${result.prev}">
+                <a class="page-link" href="#" tabindex="-1">Previous</a>
+            </li>
+            <!--PREV버튼 END-->
+
+            <!--페이지버튼 START-->
+            <li th:class=" 'page-item' + ${result.page == page?'active':''} " th:each="page: ${result.pageList}">
+                <a class="page-link" href="#">
+                    [[${page}]]
+                </a>
+            </li>
+            <!--페이지버튼 END-->
+
+            <!--NEXT버튼 START-->
+            <li class="page-item" th:if="${result.next}">
+                <a class="page-link" href="#">Next</a>
+            </li>
+            <!--NEXT버튼 END-->
+        </ul>
+        <!--하단 페이지 END-->
+
+    </th:block>
+
+</th:block>
