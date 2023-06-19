@@ -79,7 +79,7 @@ public class GuestbookController {
     @PostMapping("/remove")
     public String remove(long gno, RedirectAttributes redirectAttributes){
 
-        log.info("gno: " + gno);
+        log.info("gno: " + gno+" 를 삭제합니다.");
 
         service.remove(gno);
 
@@ -97,6 +97,8 @@ public class GuestbookController {
         service.modify(dto);
 
         redirectAttributes.addAttribute("page", requestDTO.getPage());
+        redirectAttributes.addAttribute("type", requestDTO.getType());
+        redirectAttributes.addAttribute("keyword", requestDTO.getKeyword());
         redirectAttributes.addAttribute("gno", dto.getGno());
 
         return "redirect:/guestbook/read";

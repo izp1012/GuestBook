@@ -84,4 +84,26 @@ public class GuestbookServiceTests {
     그럼에도 끝번호를 먼저 계산하는 이유는 시작 번호를 계산하기 수웛하기 때문이다.
     만일 화면에서 10개씩 보여준다면 시작 번호는 무조건 임시로 만든 끝 번호에서 9라는 값을 뺸값이 되기 때문이다.
      */
+
+    @Test
+    public void testSearch(){
+
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .page(1)
+                .size(10)
+                .type("c") // 검색 조건 t,c,w,tc,tcw..
+                .keyword("한수") //검색 키워드
+                .build();
+
+        PageResultDTO<GuestbookDTO, Guestbook> resultDTO = service.getList(pageRequestDTO);
+
+        System.out.println("---------------------------------------------------");
+        for (GuestbookDTO guestbookDTO : resultDTO.getDtoList()) {
+            System.out.println(guestbookDTO);
+        }
+
+        System.out.println("===================================================");
+        resultDTO.getPageList().forEach(i -> System.out.println(i));
+    }
+
 }
