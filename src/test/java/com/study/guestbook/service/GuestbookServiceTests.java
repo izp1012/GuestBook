@@ -49,7 +49,7 @@ public class GuestbookServiceTests {
 //        GuestbookDTO(gno=293, title=Inhyo's Title..293, content=Inhyo's Content..293, writer=Inhyo3, regDate=2023-06-11T17:34:44.763754, modDate=2023-06-11T17:34:44.763754)
 //        GuestbookDTO(gno=292, title=Inhyo's Title..292, content=Inhyo's Content..292, writer=Inhyo2, regDate=2023-06-11T17:34:44.650255, modDate=2023-06-11T17:34:44.650255)
 
-        //현재 데이터 상황 :  총 301 건의 데이터가 존재하고 각 페이지당 10개의 목록을 보여준다
+//        현재 데이터 상황 :  총 301 건의 데이터가 존재하고 각 페이지당 10개의 목록을 보여준다
         System.out.println("PREV : " + resultDTO.isPrev()); //false 1페이지이므로 이전으로 가능 링크 필요 없음
         System.out.println("NEXT : " + resultDTO.isNext()); //true 다음 페이지로 가능 링크 필요
         System.out.println("TOTAL : " + resultDTO.getTotalPage()); // 31 전체 페이지 갯수
@@ -91,8 +91,8 @@ public class GuestbookServiceTests {
         PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
                 .page(1)
                 .size(10)
-                .type("c") // 검색 조건 t,c,w,tc,tcw..
-                .keyword("한수") //검색 키워드
+                .type("tc") // 검색 조건 t,c,w,tc,tcw..
+                .keyword("한글") //검색 키워드
                 .build();
 
         PageResultDTO<GuestbookDTO, Guestbook> resultDTO = service.getList(pageRequestDTO);

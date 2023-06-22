@@ -38,7 +38,7 @@
       <label>ModDate</label>
       <input type="text" class="form-control" name="modDate" th:value="${#temporals.format(dto.modDate, 'yyyy/MM/dd HH:mmss')}" readonly>
     </div>
-
+    <!--링크페이지 시작-->
     <a th:href="@{/guestbook/modify(gno = ${dto.gno}, page=${requestDTO.page})}">
       <button type="button" class="btn btn-primary">Modify</button>
     </a>
@@ -46,6 +46,7 @@
     <a th:href="@{/guestbook/list(page=${requestDTO.page})}">
       <button type="button" class="btn btn-info">List</button>
     </a>
+    <!--링크페이지 끝-->
   </th:block>
 
 

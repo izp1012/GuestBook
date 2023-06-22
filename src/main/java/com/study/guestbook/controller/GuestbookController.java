@@ -38,7 +38,6 @@ public class GuestbookController {
 
         model.addAttribute("result", service.getList(pageRequestDTO));
 
-//        return "/guestbook/list";
     }
 
     /*

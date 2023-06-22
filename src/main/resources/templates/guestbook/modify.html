@@ -5,6 +5,8 @@
 
   <th:block th:fragment="content">
 
+    <h1 class="mt-4">Guestbook Modify Page</h1>
+
     <form action="/guestbook/modify" method="post">
 
       <!-- 페이지 번호-->
@@ -95,7 +97,7 @@
         actionForm
                 .attr("action", "/guestbook/list")
                 .attr("method", "get")
-
+        console.log(actionForm.html());
         actionForm.submit(); //확인 후 주석 해제
 
       });
