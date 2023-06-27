@@ -14,6 +14,10 @@ public interface BoardService {
 
     BoardDTO get(Long bno); //게시글 조회처리
 
+    void removeWithReplies(Long bno);//게시글 삭제처리
+
+    void modify(BoardDTO boardDTO);//게시글 수정 처리
+
     default Board dtoToEntity(BoardDTO dto){
 
         Member member = Member.builder().email(dto.getWriterEmail()).build();
@@ -43,7 +47,4 @@ public interface BoardService {
         return boardDTO;
 
     }
-    //게시글 삭제처리
-    void removeWithReplies(Long bno);
-
 }
