@@ -12,7 +12,7 @@ public interface BoardService {
 
     PageResultDTO<BoardDTO, Object[]> getList(PageRequestDTO pageRequestDTO);
 
-    BoardDTO get(Long bno);
+    BoardDTO get(Long bno); //게시글 조회처리
 
     default Board dtoToEntity(BoardDTO dto){
 
@@ -43,4 +43,7 @@ public interface BoardService {
         return boardDTO;
 
     }
+    //게시글 삭제처리
+    void removeWithReplies(Long bno);
+
 }

@@ -6,6 +6,8 @@ import com.study.board.dto.PageResultDTO;
 import com.study.board.entity.Board;
 import com.study.board.entity.Member;
 import com.study.board.repository.BoardRepository;
+import com.study.board.repository.ReplyRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -20,6 +22,7 @@ import java.util.function.Function;
 public class BoardServiceImpl implements BoardService{
 
     private final BoardRepository repository;
+    private final ReplyRepository replyRepository;
     @Override
     public Long register(BoardDTO dto) {
 
@@ -53,5 +56,16 @@ public class BoardServiceImpl implements BoardService{
         Object[] arr = (Object[])result;
 
         return entityToDTO((Board)arr[0], (Member)arr[1], (Long)arr[2]);
+    }
+
+    @Transactional
+    @Override
+    public void removeWithReplies(Long bno) {//삭제 기능 구현, 트랜잭션 추가
+
+        //댓글 부터 삭제
+        replyRepository.deleteByBno(bno);
+
+        repository.deleteById(bno);
+
     }
 }
