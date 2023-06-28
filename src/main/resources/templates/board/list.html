@@ -14,6 +14,33 @@
             </span>
         </h1>
 
+        <!--검색 START-->
+        <form action="/board/list" method="get" id="searchForm">
+            <div class="input-group">
+                <input type="hidden" name="page" value="1">
+                <!--타입 START-->
+                <div class="input-group-prepend">
+                    <select class="custom-select" name="type">
+
+                        <option value="t" th:selected="${pageRequestDTO.type == 't'}">제목</option>
+                        <option value="c" th:selected="${pageRequestDTO.type == 'c'}">내용</option>
+                        <option value="w" th:selected="${pageRequestDTO.type == 'w'}">작성자</option>
+                        <option value="tc" th:selected="${pageRequestDTO.type == 'tc'}">제목 + 내용</option>
+                        <option value="tcw" th:selected="${pageRequestDTO.type == 'tcw'}">제목 + 내용 + 작성자</option>
+                    </select>
+                </div>
+                <!--타입 END-->
+                <!--키워드 START-->
+                <input class="form-control" name="keyword" th:value="${pageRequestDTO.keyword}">
+                <div class="input-group-append" id="button-addon4">
+                    <button class="btn btn-outline-secondary btn-search" type="button">Search</button>
+                    <button class="btn btn-outline-secondary btn-clear" type="button">Clear</button>
+                </div>
+                <!--키워드 END-->
+            </div>
+        </form>
+        <!--검색 END-->
+        <!--목록 START-->
         <table class="table table-striped">
             <thead>
             <tr>
@@ -41,7 +68,7 @@
 
             </tbody>
         </table>
-
+        <!--목록 END-->
         <!--페이징 단 시작-->
         <ul class="pagination h-100 justify-content-center align-items-center">
 
@@ -67,6 +94,58 @@
 
         </ul>
         <!--페이징 단 끝-->
+        <!--모달 페이지 START-->
+        <div class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+
+                    <!--modal-header START-->
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label = "Cloes">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <!--modal-header END-->
+
+                    <!--modal-body START-->
+                    <div class="modal-body">
+                        <p>Modal body text goes here.</p>
+                        <p> 어떤거를 넣어야하나요 </p>
+                    </div>
+                    <!--modal-body END-->
+
+                    <!--modal-footer START-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" >Save changes</button>
+                    </div>
+                    <!--modal-footer END-->
+                </div>
+                <!--modal-content END-->
+            </div>
+        </div>
+        <!--모달 페이지 END-->
+        <script th:inline="javascript">
+
+            var msg = [[${msg}]];
+
+            console.log(msg);
+
+            if(msg){
+                $(".modal").modal();
+            }
+
+            var searchForm = $("#searchForm");
+
+            $('.btn-search').click(function(e){
+                searchForm.submit();
+            });
+            $('.btn-clear').click(function(e){
+                searchForm.empty().submit();
+            });
+
+        </script>
     </th:block>
 
 </th:block>
