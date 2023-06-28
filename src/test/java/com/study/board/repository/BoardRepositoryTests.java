@@ -96,4 +96,14 @@ public class BoardRepositoryTests {
         boardRepository.search1();
 
     }
+
+    @Test
+    public void testSearchPage() {
+        //제목('t') 로 '1' 이라는 단어가 있는 데이터를 검색
+        Pageable pageable =
+                PageRequest.of(0,10, Sort.by("bno").descending());
+
+        Page<Object[]> result = boardRepository.searchPage("t", "1", pageable);
+
+    }
 }
