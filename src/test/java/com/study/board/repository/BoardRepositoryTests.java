@@ -101,7 +101,7 @@ public class BoardRepositoryTests {
     public void testSearchPage() {
         //제목('t') 로 '1' 이라는 단어가 있는 데이터를 검색
         Pageable pageable =
-                PageRequest.of(0,10, Sort.by("bno").descending());
+                PageRequest.of(0,10, Sort.by("bno").descending().and(Sort.by("title").ascending()));
 
         Page<Object[]> result = boardRepository.searchPage("t", "1", pageable);
 

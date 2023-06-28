@@ -2,7 +2,10 @@ package com.study.board.repository.search;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import com.study.board.entity.Board;
 import com.study.board.entity.QBoard;
@@ -12,6 +15,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import java.util.List;
@@ -72,8 +76,11 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
 //        List<Board> result = jpqlQuery.fetch();
 
         //최종 Tuple 적용
-        QBoard board = QBoard.board;
-        QReply reply = QReply.reply;
+        QBoard board;
+        board = QBoard.board;
+
+        QReply reply;
+        reply = QReply.reply;
         QMember member = QMember.member;
 
         JPQLQuery<Board> jpqlQuery = from(board);
@@ -93,7 +100,7 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
 
         return null;
     }
-
+    @Override
     public Page<Object[]> searchPage(String type, String keyword, Pageable pageable) {
 
         log.info("searchPage.............................");
@@ -131,11 +138,37 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
         }
 
         tuple.where(booleanBuilder);
+
+        //order by
+        Sort sort = pageable.getSort();
+
+        //tuple.orderBy(board.bno.desc());
+
+        sort.stream().forEach(order -> {
+            Order direction = order.isAscending()? Order.ASC: Order.DESC;
+            String prop = order.getProperty();
+
+            PathBuilder orderByExpression = new PathBuilder(Board.class, "board");
+            tuple.orderBy(new OrderSpecifier(direction, orderByExpression.get(prop)));
+
+        });
         tuple.groupBy(board);
+
+//        //page 처리
+        tuple.offset(pageable.getOffset());
+        tuple.limit(pageable.getPageSize());
+
         List<Tuple> result = tuple.fetch();
 
         log.info(result);
 
-        return null;
+        long count = tuple.fetchCount();
+
+        log.info("COUNT: " +count);
+
+        return new PageImpl<Object[]>(
+                result.stream().map(Tuple::toArray).collect(Collectors.toList()),
+                pageable,
+                count);
     }
 }
