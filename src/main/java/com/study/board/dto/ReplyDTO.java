@@ -15,7 +15,7 @@ public class ReplyDTO {
 
     private Long rno;
     private String text;
-    private String replayer;
+    private String replyer;
     private Long bno;   //게시글 번호
     private LocalDateTime regDate, modDate;
 }
