@@ -46,7 +46,7 @@ public class MemberRepositoryTests {
         /*
         위의 순서로 발생하면 에러가 발생
         에러원인
-        1) FK 를 가지는 Review 쪽을 먼저 삭제하지않았음
+        1) FK 를 가지는 Review 쪽을 먼저 삭제하지않았음리
         2) 트랜잭션 관련 처리가 없다
         -> 아래의 순서로 메소드 수정 및 트랜잭션 관련 어노테이션인 @Transaction 이랑 @commit 을 추가해준다
          */
