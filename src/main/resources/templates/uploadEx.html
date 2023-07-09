@@ -44,8 +44,9 @@
             type: 'POST',
             dataType:'json',
             success: function(result){
-                console.log(result);
-                //나중에 화면 처리
+                // console.log(result);
+                //화면 처리
+                showUploadedImages(result);
             },
             error: function(jqXHR, textStatus, errorThrown){
                 console.log(textStatus);
@@ -55,6 +56,17 @@
 
     });
 
+    function showUploadedImages(arr){
+
+        console.log(arr);
+
+        var divArea = $(".uploadResult");
+
+        for(var i = 0; i < arr.length; i++){
+            divArea.append("<img src='/display?fileName="+arr[i].imageURL+"'>");
+        }
+
+    }
 
 </script>
 
