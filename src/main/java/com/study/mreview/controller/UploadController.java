@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,6 +31,28 @@ import java.util.UUID;
 public class UploadController {
     @Value("${org.inhyo.upload.path}")  //applicaion.properties 의 변수
     private String uploadPath;
+
+    @PostMapping("/removeFile")
+    public ResponseEntity<Boolean> removeFile(String fileName){
+
+        String srcFileName = null;
+        try {
+            srcFileName = URLDecoder.decode(fileName,"UTF-8");
+            File file = new File(uploadPath +File.separator+ srcFileName);
+            boolean result = file.delete();
+
+            File thumbnail = new File(file.getParent(), "s_" + file.getName());
+
+            result = thumbnail.delete();
+
+            return new ResponseEntity<>(result, HttpStatus.OK);
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
 
     /*
     URL 인코딩된 파일 이름을 파라미터로 받아서 해당 파일을 byte[] 로 만들어서 브라우저로 전송
@@ -89,7 +112,7 @@ public class UploadController {
             //UUID
             String uuid = UUID.randomUUID().toString();
 
-            //저장할 파일 이름 중간에 "_"를 이용해서 구분
+            //저장할 파일 이름 중간에제 "_"를 이용해서 구분
             String saveName = uploadPath + File.separator + folderPath + File.separator + uuid +"_" + fileName;
             Path savePath = Paths.get(saveName);
 
