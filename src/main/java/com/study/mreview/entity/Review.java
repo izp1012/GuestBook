@@ -26,4 +26,12 @@ public class Review extends BaseEntity {
 
     private String text;
 
+    //Review 엔티티 클래스에 리뷰 평점과 리뷰 내용을 수정할 수 있는 기능 추가
+        this.grade = grade;
+    }
+
+    public void changeText(String text){
+        this.text = text;
+    }
+
 }
