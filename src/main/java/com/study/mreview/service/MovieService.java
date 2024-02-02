@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public interface MovieService {
 
     Long register(MovieDTO movieDTO);
+    MovieDTO getMovie(Long mno);
 
     //목록처리
     PageResultDTO<MovieDTO, Object[]> getList(PageRequestDTO requestDTO);
