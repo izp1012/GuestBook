@@ -219,6 +219,74 @@ $(document).ready(function(e) {
 
     getMovieReviews();
 
+    //modify reveiw
+
+    var reviewnum;
+
+    $(".reviewList").on("click", ".card-body", function() {
+
+        $(".reviewSaveBtn").hide();
+        $(".removeBtn , .modifyBtn").show();
+
+
+        var targetReview = $(this);
+
+        reviewnum = targetReview.data("reviewnum");
+        console.log("reviewnum: "+ reviewnum);
+        inputMid.val(targetReview.data("mid"));
+        inputText.val(targetReview.find('.card-title').clone().children().remove().end().text());
+
+        var grade = targetReview.find('.card-title span').html();
+        $(".starrr a:nth-child("+grade+")").trigger('click');
+
+        $('.reviewModal').modal('show');
+    });
+
+    $(".modifyBtn").on("click", function(){
+
+        var data = {reviewnum: reviewnum, mno:mno, grade:grade, text:inputText.val(), mid: inputMid.val() };
+
+        console.log(data);
+
+        $.ajax({
+            url:'/reviews/'+mno +"/"+ reviewnum ,
+            type:"PUT",
+            data:JSON.stringify(data),
+            contentType:"application/json; charset=utf-8",
+            dataType:"text",
+            success: function(result){
+
+                console.log("result: " + result);
+
+                self.location.reload();
+
+            }
+        })
+        reviewModal.modal('hide');
+    });
+
+    $(".removeBtn").on("click", function(){
+
+        var data = {reviewnum: reviewnum};
+
+        console.log(data);
+
+        $.ajax({
+            url:'/reviews/'+mno +"/"+ reviewnum ,
+            type:"DELETE",
+            contentType:"application/json; charset=utf-8",
+            dataType:"text",
+            success: function(result){
+
+                console.log("result: " + result);
+
+                self.location.reload();
+
+            }
+        })
+        reviewModal.modal('hide');
+    });
+
 });
 </script>
 
